@@ -292,7 +292,7 @@
 .palette-title span { color: #697496; font-size: 10px; }
 .palette-group {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2px 5px;
   margin-bottom: 5px;
 }
