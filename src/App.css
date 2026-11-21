@@ -282,23 +282,23 @@
 
 .palette-panel {
   min-height: 0;
-  padding: 14px 12px;
+  padding: 12px 10px;
   border-left: 1px solid #252d4a;
   background: #10152a;
-  overflow: hidden;
+  overflow-y: auto;
 }
-.palette-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 4px 8px; }
+.palette-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 4px 6px; }
 .palette-title strong { font-size: 14px; }
-.palette-title span { color: #697496; font-size: 9px; }
+.palette-title span { color: #697496; font-size: 10px; }
 .palette-group {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3px 5px;
-  margin-bottom: 7px;
+  gap: 2px 5px;
+  margin-bottom: 5px;
 }
 .category-label {
   grid-column: 1 / -1;
-  display: block; margin: 2px 3px 2px; font-size: 8px; font-weight: 900;
+  display: block; margin: 2px 3px; font-size: 9px; font-weight: 900;
   text-transform: uppercase; letter-spacing: 1px;
 }
 .label-events { color: #e0b44d; }
@@ -308,27 +308,27 @@
 .label-control { color: #efaa55; }
 .label-looks { color: #b98de8; }
 .palette-group .block {
-  min-height: 29px;
+  min-height: 34px;
   min-width: 0;
   width: 100%;
   max-width: none;
   margin: 0;
   gap: 4px;
-  padding: 4px 5px;
-  font-size: 8px;
-  line-height: 1.05;
+  padding: 5px 6px;
+  font-size: 10px;
+  line-height: 1.15;
 }
 .palette-group .block-icon {
-  flex: 0 0 17px;
-  width: 17px;
-  height: 17px;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 @media (max-width: 1050px) {
   .topbar { grid-template-columns: 230px 1fr 100px; padding: 0 20px; }
-  .game-grid { grid-template-columns: 220px minmax(380px, 1fr) 210px; }
+  .game-grid { grid-template-columns: 220px minmax(380px, 1fr) 250px; }
   .mission-panel { padding: 24px 16px; }
 }
 
