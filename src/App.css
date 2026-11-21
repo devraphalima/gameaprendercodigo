@@ -44,7 +44,7 @@
 .game-grid {
   height: calc(100vh - 82px);
   display: grid;
-  grid-template-columns: 265px minmax(420px, 1fr) 300px;
+  grid-template-columns: 265px 300px minmax(420px, 1fr);
 }
 
 .mission-panel {
@@ -328,7 +328,7 @@
 
 @media (max-width: 1050px) {
   .topbar { grid-template-columns: 230px 1fr 100px; padding: 0 20px; }
-  .game-grid { grid-template-columns: 220px minmax(380px, 1fr) 250px; }
+  .game-grid { grid-template-columns: 220px 250px minmax(380px, 1fr); }
   .mission-panel { padding: 24px 16px; }
 }
 
