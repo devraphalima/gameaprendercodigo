@@ -1,5 +1,6 @@
 .app-shell {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background:
     radial-gradient(circle at 82% 12%, rgba(91, 111, 255, .12), transparent 24rem),
     linear-gradient(145deg, #11162d 0%, #0d1224 100%);
@@ -41,15 +42,16 @@
 .xp-box strong { color: #f7c86b; font-size: 18px; }
 
 .game-grid {
-  min-height: calc(100vh - 82px);
+  height: calc(100vh - 82px);
   display: grid;
-  grid-template-columns: 265px minmax(420px, 1fr) 250px;
+  grid-template-columns: 265px minmax(420px, 1fr) 300px;
 }
 
 .mission-panel {
   padding: 30px 24px;
   border-right: 1px solid #252d4a;
   background: rgba(16, 21, 42, .72);
+  overflow-y: auto;
 }
 .level-chip {
   width: fit-content; margin-bottom: 15px; padding: 5px 9px;
@@ -279,17 +281,24 @@
 }
 
 .palette-panel {
-  padding: 20px 16px;
+  min-height: 0;
+  padding: 14px 12px;
   border-left: 1px solid #252d4a;
   background: #10152a;
-  overflow-y: auto;
+  overflow: hidden;
 }
-.palette-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 4px 16px; }
+.palette-title { display: flex; align-items: baseline; justify-content: space-between; margin: 0 4px 8px; }
 .palette-title strong { font-size: 14px; }
 .palette-title span { color: #697496; font-size: 9px; }
-.palette-group { margin-bottom: 17px; }
+.palette-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px 5px;
+  margin-bottom: 7px;
+}
 .category-label {
-  display: block; margin: 0 4px 7px; font-size: 9px; font-weight: 900;
+  grid-column: 1 / -1;
+  display: block; margin: 2px 3px 2px; font-size: 8px; font-weight: 900;
   text-transform: uppercase; letter-spacing: 1px;
 }
 .label-events { color: #e0b44d; }
@@ -298,7 +307,24 @@
 .label-operators { color: #62cbc1; }
 .label-control { color: #efaa55; }
 .label-looks { color: #b98de8; }
-.palette-group .block { min-height: 40px; min-width: 0; width: 100%; max-width: none; margin: 6px 0; }
+.palette-group .block {
+  min-height: 29px;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 4px;
+  padding: 4px 5px;
+  font-size: 8px;
+  line-height: 1.05;
+}
+.palette-group .block-icon {
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  font-size: 9px;
+}
 
 @media (max-width: 1050px) {
   .topbar { grid-template-columns: 230px 1fr 100px; padding: 0 20px; }
@@ -307,6 +333,14 @@
 }
 
 @media (max-width: 820px) {
+  .app-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  .game-grid {
+    height: auto;
+  }
   .topbar { grid-template-columns: 1fr auto; height: 70px; }
   .progress-wrap { display: none; }
   .game-grid { display: flex; flex-direction: column; }
