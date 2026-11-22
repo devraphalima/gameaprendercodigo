@@ -149,6 +149,7 @@ function App() {
   const [showCode, setShowCode] = useState(false)
   const [terminalLines, setTerminalLines] = useState(['$ terminal pronto'])
   const [terminalInput, setTerminalInput] = useState('')
+  const [terminalCollapsed, setTerminalCollapsed] = useState(false)
   const mission = missions[missionIndex]
   const nextWorkspaceBlock = palette.find((block) => block.id === mission.target[workspace.length])
   const nextWorkspaceNumber = workspace.length + 1
@@ -223,6 +224,7 @@ function App() {
     setShowCode(false)
     setTerminalLines(['$ terminal pronto'])
     setTerminalInput('')
+    setTerminalCollapsed(false)
   }
 
   const runTerminal = () => {
@@ -398,28 +400,40 @@ function App() {
                 <div className="terminal-header">
                   <span><i /> <i /> <i /></span>
                   <strong>Terminal</strong>
+                  <button
+                    type="button"
+                    className="terminal-toggle"
+                    aria-label={terminalCollapsed ? 'Expandir terminal' : 'Minimizar terminal'}
+                    aria-expanded={!terminalCollapsed}
+                    aria-controls="terminal-content"
+                    onClick={() => setTerminalCollapsed((collapsed) => !collapsed)}
+                  >
+                    {terminalCollapsed ? 'Expandir' : 'Minimizar'}
+                  </button>
                 </div>
-                <div className="terminal-output" aria-live="polite">
-                  {terminalLines.map((line, index) => (
-                    <div key={`${line}-${index}`}>{line}</div>
-                  ))}
+                <div id="terminal-content" hidden={terminalCollapsed}>
+                  <div className="terminal-output" aria-live="polite">
+                    {terminalLines.map((line, index) => (
+                      <div key={`${line}-${index}`}>{line}</div>
+                    ))}
+                  </div>
+                  <form
+                    className="terminal-form"
+                    onSubmit={(event) => {
+                      event.preventDefault()
+                      runTerminal()
+                    }}
+                  >
+                    <span>$</span>
+                    <input
+                      value={terminalInput}
+                      onChange={(event) => setTerminalInput(event.target.value)}
+                      placeholder={missionIndex === 0 ? 'digite n' : missionIndex === 1 ? 'digite a b c' : 'digite a b'}
+                      aria-label="Entrada do programa"
+                    />
+                    <button type="submit">Executar entrada</button>
+                  </form>
                 </div>
-                <form
-                  className="terminal-form"
-                  onSubmit={(event) => {
-                    event.preventDefault()
-                    runTerminal()
-                  }}
-                >
-                  <span>$</span>
-                  <input
-                    value={terminalInput}
-                    onChange={(event) => setTerminalInput(event.target.value)}
-                    placeholder={missionIndex === 0 ? 'digite n' : missionIndex === 1 ? 'digite a b c' : 'digite a b'}
-                    aria-label="Entrada do programa"
-                  />
-                  <button type="submit">Executar entrada</button>
-                </form>
               </div>
 
               <div className="code-panel">

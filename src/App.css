@@ -242,6 +242,19 @@
 }
 
 .terminal-header > span { display: flex; gap: 5px; }
+.terminal-toggle {
+  margin-left: auto;
+  border: 0;
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: transparent;
+  color: #929dbc;
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+.terminal-toggle:hover,
+.terminal-toggle:focus-visible { background: #171d35; color: #eaf0ff; }
 .terminal-header i {
   width: 8px;
   height: 8px;
