@@ -99,7 +99,7 @@
 }
 .mission-nav button.active { border-color: #9a7cff; background: #8d63ff; color: white; box-shadow: 0 6px 18px rgba(141,99,255,.25); }
 
-.workspace-panel { min-width: 0; display: flex; flex-direction: column; background: #141930; }
+.workspace-panel { min-width: 0; min-height: 0; display: flex; flex-direction: column; background: #141930; }
 .panel-header {
   height: 56px; display: flex; align-items: center; justify-content: space-between;
   padding: 0 22px; border-bottom: 1px solid #252d4a;
@@ -112,7 +112,7 @@
 .clear-button:hover { color: white; }
 
 .workspace {
-  flex: 1; min-height: 500px; padding: 20px 26px;
+  flex: 1; min-height: 0; padding: 20px 26px;
   background-image: radial-gradient(#29304c 1px, transparent 1px);
   background-size: 18px 18px;
   overflow-y: auto;
