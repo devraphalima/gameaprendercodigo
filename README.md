@@ -10,12 +10,17 @@ Jogo educativo desenvolvido em React e Vite para praticar lógica booleana e est
 
 ## Recursos
 
-- Blocos de eventos, variáveis, entrada, operadores, controle e saída
+- Montagem livre para os exercícios 2.1 a 2.13 de lógica e condicionais
+- Blocos configuráveis para variáveis, entrada, atribuição, operadores, decisões e saída
+- Código C gerado ao vivo, com destaque entre blocos e linhas correspondentes
+- Validação de expressões e da estrutura `if`/`else` e `switch`/`case`
 - Missões sobre classificação de números e comparação de valores
 - Área de montagem com sequência e validação dos blocos
 - Terminal visual com exemplos de execução
 - Revelação do código C correspondente a cada missão
 - Sistema de progresso e XP
+
+O modo livre gera uma prévia de C; ele ainda não compila nem executa programas arbitrários.
 
 ## Executar localmente
 
@@ -28,4 +33,11 @@ npm run dev
 
 ```bash
 npm run build
+```
+
+## Testes e lint
+
+```bash
+npm test
+npm run lint
 ```

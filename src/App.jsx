@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { FreeBuilder, ModeSwitch } from './FreeBuilder'
 import './App.css'
 
 const MIN_WORKSPACE_WIDTH = 260
@@ -140,6 +141,7 @@ function Block({ block, onAdd, onRemove, inWorkspace = false, highlighted = fals
 function App() {
   const [workspaceWidth, setWorkspaceWidth] = useState(320)
   const resizeStartRef = useRef(null)
+  const [viewMode, setViewMode] = useState('free')
   const [missionIndex, setMissionIndex] = useState(0)
   const [workspace, setWorkspace] = useState([])
   const [xp, setXp] = useState(0)
@@ -323,17 +325,31 @@ function App() {
           </div>
         </div>
         <div className="progress-wrap">
-          <span>Missão {missionIndex + 1} de {missions.length}</span>
-          <div className="progress-track"><div style={{ width: `${((missionIndex + 1) / missions.length) * 100}%` }} /></div>
+          <span>{viewMode === 'guided' ? `Missão ${missionIndex + 1} de ${missions.length}` : 'Módulo 3 · Montagem livre'}</span>
+          {viewMode === 'guided' && (
+            <div className="progress-track"><div style={{ width: `${((missionIndex + 1) / missions.length) * 100}%` }} /></div>
+          )}
         </div>
         <div className="xp-box"><span>XP</span><strong>{xp}</strong></div>
       </header>
 
+      {viewMode === 'free' ? (
+        <FreeBuilder
+          onModeChange={setViewMode}
+          workspaceWidth={workspaceWidth}
+          maxWorkspaceWidth={getMaxWorkspaceWidth()}
+          onResizeStart={startResizing}
+          onResizeMove={resizeWorkspace}
+          onResizeEnd={stopResizing}
+          onResizeKeyDown={resizeWithKeyboard}
+        />
+      ) : (
       <section
         className="game-grid"
         style={{ '--workspace-width': `${workspaceWidth}px` }}
       >
         <aside className="mission-panel">
+          <ModeSwitch mode={viewMode} onChange={setViewMode} />
           <div className="level-chip">NÍVEL 03</div>
           <h1>{mission.title}</h1>
           <p className="mission-subtitle">{mission.subtitle}</p>
@@ -508,6 +524,7 @@ function App() {
           ))}
         </aside>
       </section>
+      )}
     </main>
   )
 }
