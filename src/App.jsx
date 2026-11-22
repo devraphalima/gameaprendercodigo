@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
+
+const MIN_WORKSPACE_WIDTH = 260
+const RESIZE_HANDLE_WIDTH = 8
 
 const palette = [
   { id: 'start', type: 'events', label: 'ao clicar em iniciar', icon: '▶' },
@@ -135,6 +138,8 @@ function Block({ block, onAdd, onRemove, inWorkspace = false, highlighted = fals
 }
 
 function App() {
+  const [workspaceWidth, setWorkspaceWidth] = useState(320)
+  const resizeStartRef = useRef(null)
   const [missionIndex, setMissionIndex] = useState(0)
   const [workspace, setWorkspace] = useState([])
   const [xp, setXp] = useState(0)
@@ -148,6 +153,52 @@ function App() {
   const nextWorkspaceBlock = palette.find((block) => block.id === mission.target[workspace.length])
   const nextWorkspaceNumber = workspace.length + 1
   const nextBlockId = mission.target[workspace.length]
+
+  const getMaxWorkspaceWidth = () => {
+    const narrowLayout = window.innerWidth <= 1050
+    const missionWidth = narrowLayout ? 220 : 265
+    const minPaletteWidth = narrowLayout ? 300 : 320
+    return Math.max(
+      MIN_WORKSPACE_WIDTH,
+      window.innerWidth - missionWidth - RESIZE_HANDLE_WIDTH - minPaletteWidth,
+    )
+  }
+
+  const clampWorkspaceWidth = (width) => (
+    Math.min(getMaxWorkspaceWidth(), Math.max(MIN_WORKSPACE_WIDTH, width))
+  )
+
+  useEffect(() => {
+    const clampOnResize = () => {
+      setWorkspaceWidth((width) => clampWorkspaceWidth(width))
+    }
+
+    window.addEventListener('resize', clampOnResize)
+    return () => window.removeEventListener('resize', clampOnResize)
+  }, [])
+
+  const startResizing = (event) => {
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    resizeStartRef.current = { clientX: event.clientX, width: workspaceWidth }
+  }
+
+  const resizeWorkspace = (event) => {
+    const start = resizeStartRef.current
+    if (!start) return
+    setWorkspaceWidth(clampWorkspaceWidth(start.width + event.clientX - start.clientX))
+  }
+
+  const stopResizing = () => {
+    resizeStartRef.current = null
+  }
+
+  const resizeWithKeyboard = (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+    event.preventDefault()
+    const direction = event.key === 'ArrowRight' ? 1 : -1
+    setWorkspaceWidth((width) => clampWorkspaceWidth(width + direction * 24))
+  }
 
   const addBlock = (blockId) => {
     if (blockId === nextBlockId) {
@@ -276,7 +327,10 @@ function App() {
         <div className="xp-box"><span>XP</span><strong>{xp}</strong></div>
       </header>
 
-      <section className="game-grid">
+      <section
+        className="game-grid"
+        style={{ '--workspace-width': `${workspaceWidth}px` }}
+      >
         <aside className="mission-panel">
           <div className="level-chip">NÍVEL 03</div>
           <h1>{mission.title}</h1>
@@ -390,6 +444,25 @@ function App() {
             )}
           </div>
         </section>
+
+        <div
+          className="layout-resizer"
+          role="separator"
+          aria-label="Redimensionar área de montagem e blocos"
+          aria-orientation="vertical"
+          aria-valuemin={MIN_WORKSPACE_WIDTH}
+          aria-valuemax={getMaxWorkspaceWidth()}
+          aria-valuenow={Math.min(workspaceWidth, getMaxWorkspaceWidth())}
+          aria-valuetext={`${workspaceWidth} pixels para a área de montagem`}
+          tabIndex={0}
+          onPointerDown={startResizing}
+          onPointerMove={resizeWorkspace}
+          onPointerUp={stopResizing}
+          onPointerCancel={stopResizing}
+          onKeyDown={resizeWithKeyboard}
+        >
+          <span aria-hidden="true" />
+        </div>
 
         <aside className="palette-panel">
           <div className="palette-title">
